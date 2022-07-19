@@ -30,7 +30,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginTop="20dp"
-            android:src="@drawable/demo"/>
+            android:src="@mipmap/demo"/>
     </LinearLayout>
     <View
         android:layout_width="10dp"

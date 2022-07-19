@@ -66,17 +66,17 @@ public class MainActivity extends AppCompatActivity {
     //初始化gallery数据
     private void initGallery(){
         initData();
-        System.out.println("Init Data Successfully!");
+//        System.out.println("Init Data Successfully!");
         recyclerView = findViewById(R.id.rv_gallery);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         recyclerView.setAdapter(new GalleryAdapter(datas));
-        System.out.println("Init RecyclerView Successfully!");
+//        System.out.println("Init RecyclerView Successfully!");
     }
 
     private void initData(){
         datas = new ArrayList<>();
         for(int i=1;i<=5;i++){
-            Bitmap bm = BitmapFactory.decodeResource(getResources(),R.drawable.demo);
+            Bitmap bm = BitmapFactory.decodeResource(getResources(),R.mipmap.demo);
             PreviewInfo previewInfo = new PreviewInfo("算法 "+i,bm,"XX算法");
             datas.add(previewInfo);
         }

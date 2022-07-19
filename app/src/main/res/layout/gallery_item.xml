@@ -16,7 +16,7 @@
         android:id="@+id/im_alg_mini"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:src="@drawable/demo"
+        android:src="@mipmap/demo"
         android:layout_weight="8"/>
     <TextView
         android:id="@+id/tv_alg_title"
