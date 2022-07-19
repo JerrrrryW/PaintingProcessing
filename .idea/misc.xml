@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/#J.Wang/DMUUUU/Code/PaintingProcessing/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/#J.Wang/DMUUUU/Code/PaintingProcessing/app/src/main/res/drawable/corner_round_gray.xml" value="0.241" />
+        <entry key="..\:/#J.Wang/DMUUUU/Code/PaintingProcessing/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/#J.Wang/DMUUUU/Code/PaintingProcessing/app/src/main/res/layout/corner_round.xml" value="0.17760416666666667" />
       </map>
     </option>
   </component>
