@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -35,7 +36,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.VH> {
 
     private List<PreviewInfo> mDatas;
     private Set<String> mNameSet;
-    private static final int maxTagNum = 3;
 
     @Override
     public void onBindViewHolder(GalleryAdapter.VH holder, int position) {
