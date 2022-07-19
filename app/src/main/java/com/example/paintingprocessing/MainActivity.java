@@ -1,6 +1,9 @@
 package com.example.paintingprocessing;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,10 +17,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static android.view.View.GONE;
 
 public class MainActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE = 1;
+    RecyclerView recyclerView;
+    List<PreviewInfo> datas;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_IMAGE);
             }
         });
+
+        initGallery();
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -52,4 +62,24 @@ public class MainActivity extends AppCompatActivity {
         Bitmap bm = BitmapFactory.decodeFile(imagePath);
         ((ImageView)findViewById(R.id.iv_preview)).setImageBitmap(bm);
     }
+
+    //初始化gallery数据
+    private void initGallery(){
+        initData();
+        System.out.println("Init Data Successfully!");
+        recyclerView = findViewById(R.id.rv_gallery);
+        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        recyclerView.setAdapter(new GalleryAdapter(datas));
+        System.out.println("Init RecyclerView Successfully!");
+    }
+
+    private void initData(){
+        datas = new ArrayList<>();
+        for(int i=1;i<=5;i++){
+            Bitmap bm = BitmapFactory.decodeResource(getResources(),R.drawable.demo);
+            PreviewInfo previewInfo = new PreviewInfo("算法 "+i,bm,"XX算法");
+            datas.add(previewInfo);
+        }
+    }
+
 }
