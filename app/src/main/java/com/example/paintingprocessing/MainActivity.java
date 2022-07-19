@@ -16,6 +16,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
     static final int REQUEST_IMAGE = 1;
     RecyclerView recyclerView;
     List<PreviewInfo> datas;
+    Bitmap inputBM;
+    GalleryAdapter galleryAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,8 +63,10 @@ public class MainActivity extends AppCompatActivity {
     }
     //加载图片
     private void showImage(String imagePath){
-        Bitmap bm = BitmapFactory.decodeFile(imagePath);
-        ((ImageView)findViewById(R.id.iv_preview)).setImageBitmap(bm);
+        inputBM = BitmapFactory.decodeFile(imagePath);
+        ((ImageView)findViewById(R.id.iv_preview)).setImageBitmap(inputBM);
+        refreshDataSet();
+        galleryAdapter.notifyDataSetChanged();
     }
 
     //初始化gallery数据
@@ -69,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
 //        System.out.println("Init Data Successfully!");
         recyclerView = findViewById(R.id.rv_gallery);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        recyclerView.setAdapter(new GalleryAdapter(datas));
+        galleryAdapter = new GalleryAdapter(datas);
+        recyclerView.setAdapter(galleryAdapter);
 //        System.out.println("Init RecyclerView Successfully!");
     }
 
@@ -80,6 +87,14 @@ public class MainActivity extends AppCompatActivity {
             PreviewInfo previewInfo = new PreviewInfo("算法 "+i,bm,"XX算法");
             datas.add(previewInfo);
         }
+    }
+
+    private void refreshDataSet(){
+        for(int i=1;i<=5;i++){
+//            Bitmap bm = BitmapFactory.decodeResource(getResources(),R.mipmap.demo);
+            datas.get(i-1).setImage(inputBM);
+        }
+        Toast.makeText(this,"Dataset Refreshed!",Toast.LENGTH_LONG).show();
     }
 
 }
