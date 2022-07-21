@@ -2,6 +2,7 @@ package com.example.paintingprocessing;
 
 import android.content.Context;
 
+import android.graphics.Bitmap;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,15 +36,20 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.VH> {
     }
 
     private List<PreviewInfo> mDatas;
-    private Set<String> mNameSet;
+    private Bitmap bm;
 
     @Override
     public void onBindViewHolder(GalleryAdapter.VH holder, int position) {
         int p=position;
-        mNameSet=new HashSet<>();
         holder.tv_alg_num.setText(mDatas.get(p).getNum());
         holder.tv_alg_title.setText(mDatas.get(p).getTitle());
-        holder.im_alg_mini.setImageBitmap(mDatas.get(p).getImage());
+        bm = mDatas.get(p).getImage();
+        holder.im_alg_mini.setImageBitmap(bm);
+//        //根据bitmap长宽比设置imageview大小
+//        ViewGroup.LayoutParams params= holder.im_alg_mini.getLayoutParams();
+//        params.height = (bm.getHeight()/bm.getWidth())* params.width;
+//        holder.im_alg_mini.setLayoutParams(params);
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
