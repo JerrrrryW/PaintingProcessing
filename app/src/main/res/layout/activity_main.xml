@@ -24,7 +24,7 @@
             android:text="图片上传"
             android:background="@drawable/corner_round_gray"
             android:textSize="30dp"/>
-        <ImageView
+        <com.example.paintingprocessing.view.EnlargeImageView
             android:id="@+id/iv_preview"
             android:layout_width="match_parent"
             android:layout_height="0dp"

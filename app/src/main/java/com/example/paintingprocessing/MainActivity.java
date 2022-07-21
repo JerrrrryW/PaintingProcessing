@@ -19,8 +19,9 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.example.paintingprocessing.view.EnlargeImageView;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
     //加载图片
     private void showImage(String imagePath){
         inputBM = resizeImage(imagePath,800,400);
-        ((ImageView)findViewById(R.id.iv_preview)).setImageBitmap(inputBM);
+        ((EnlargeImageView)findViewById(R.id.iv_preview)).setImageBitmap(inputBM);
         refreshDataSet();
         galleryAdapter.notifyDataSetChanged();
     }
