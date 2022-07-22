@@ -47,6 +47,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.VH> {
         holder.tv_alg_title.setText(mDatas.get(p).getTitle());
         bm = mDatas.get(p).getImage();
         holder.im_alg_mini.setImageBitmap(bm);
+        holder.im_alg_mini.setScaleType(ImageView.ScaleType.CENTER_CROP);
 //        //根据bitmap长宽比设置imageview大小
 //        ViewGroup.LayoutParams params= holder.im_alg_mini.getLayoutParams();
 //        params.height = (bm.getHeight()/bm.getWidth())* params.width;
