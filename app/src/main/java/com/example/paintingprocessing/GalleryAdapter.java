@@ -3,6 +3,7 @@ package com.example.paintingprocessing;
 import android.content.Context;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.VH> {
 
     private List<PreviewInfo> mDatas;
     private Bitmap bm;
+    private OnItemClickListener listener;
 
     public GalleryAdapter( List<PreviewInfo> datas) {
         this.mDatas = datas;
@@ -54,6 +56,10 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.VH> {
             @Override
             public void onClick(View v) {
                 sendToast(holder.context, "item"+p+"clicked!",Toast.LENGTH_SHORT);
+                if(listener!=null){
+                    Log.e("Gallery","ItemClicked!");
+                    listener.onItemClick(position);
+                }
             }
         });
     }
@@ -69,6 +75,14 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.VH> {
 //         FragmentHomeBinding binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.fragment_home,parent,false);
         View v = View.inflate(parent.getContext(), R.layout.gallery_item, null);
         return new GalleryAdapter.VH(v);
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listenser) {
+        this.listener = listenser;
     }
 
     void sendToast(Context mContext,String str, int showTime)

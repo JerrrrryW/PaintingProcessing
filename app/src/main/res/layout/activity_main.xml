@@ -11,7 +11,7 @@
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/gallery_layout"
+        app:layout_constraintRight_toLeftOf="@id/devide_line"
         android:layout_width="0dp"
         app:layout_constraintHorizontal_weight="1"
         android:layout_height="match_parent"
@@ -33,6 +33,7 @@
             android:src="@drawable/upload_prompt"/>
     </LinearLayout>
     <View
+        android:id="@+id/devide_line"
         android:layout_width="10dp"
         android:layout_height="match_parent"
         android:background="@drawable/corner_round_gray"
@@ -45,7 +46,7 @@
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/input_layout"
+        app:layout_constraintLeft_toRightOf="@id/devide_line"
         android:layout_width="0dp"
         app:layout_constraintHorizontal_weight="1"
         android:layout_height="match_parent"
@@ -62,7 +63,7 @@
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/input_layout"
+        app:layout_constraintLeft_toRightOf="@id/devide_line"
         android:layout_width="0dp"
         android:visibility="invisible"
         app:layout_constraintHorizontal_weight="1"

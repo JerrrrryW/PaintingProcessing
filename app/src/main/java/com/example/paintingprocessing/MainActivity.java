@@ -103,20 +103,21 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private void initGallery(){
         initData();
         detail_image=findViewById(R.id.iv_detail);
-//        System.out.println("Init Data Successfully!");
+        gallery_layout=findViewById(R.id.gallery_layout);
+        detail_layout=findViewById(R.id.detail_layout);
 
         recyclerView = findViewById(R.id.rv_gallery);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         galleryAdapter = new GalleryAdapter(datas);
         recyclerView.setAdapter(galleryAdapter);
-//        galleryAdapter.setClickListener(new GalleryAdapter.OnItemClickListener() {
-//            @Override
-//            public void onClick(View view, int position) {
-//                detail_image.setImageBitmap(datas.get(position).getImage());
-//                gallery_layout.setVisibility(GONE);
-//                detail_layout.setVisibility(View.VISIBLE);
-//            }
-//        });
+        galleryAdapter.setOnItemClickListener(new GalleryAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                detail_image.setImageBitmap(datas.get(position).getImage());
+                gallery_layout.setVisibility(GONE);
+                detail_layout.setVisibility(View.VISIBLE);
+            }
+        });
 //        System.out.println("Init RecyclerView Successfully!");
 
         findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
@@ -137,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             PreviewInfo previewInfo = new PreviewInfo("算法 "+i,bm,"XX算法");
             datas.add(previewInfo);
         }
+//        System.out.println("Init Data Successfully!");
     }
 
     private void refreshDataSet(){
