@@ -71,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         initGallery();
 
         mImagevieqw=findViewById(R.id.iv_preview);
+        detail_image=findViewById(R.id.iv_detail);
+        detail_image.setOnTouchListener(this);
+        detail_image.setScaleType(ImageView.ScaleType.MATRIX);
 
     }
     @Override
@@ -102,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     //初始化gallery数据
     private void initGallery(){
         initData();
-        detail_image=findViewById(R.id.iv_detail);
         gallery_layout=findViewById(R.id.gallery_layout);
         detail_layout=findViewById(R.id.detail_layout);
 
@@ -178,11 +180,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        ImageView im = (ImageView)v;
         switch (event.getAction()&event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN://单指触碰
 
                 //起始矩阵先获取ImageView的当前状态
-                startMatrix.set(mImagevieqw.getImageMatrix());
+                startMatrix.set(im.getImageMatrix());
                 //获取起始坐标
                 startPointF.set(event.getX(), event.getY());
                 //此时状态是单指操作
@@ -221,7 +224,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 break;
         }
         //事件结束后，把矩阵的变化同步到ImageView上
-        mImagevieqw.setImageMatrix(endMatrix);
+
+        im.setImageMatrix(endMatrix);
         return true;
 
     }
