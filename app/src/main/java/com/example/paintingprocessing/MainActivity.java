@@ -23,6 +23,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.io.InputStream;
@@ -37,7 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     List<PreviewInfo> datas;
     Bitmap inputBM;
     GalleryAdapter galleryAdapter;
-    private ImageView mImagevieqw;
+    private ImageView mImagevieqw,detail_image;
+    private LinearLayout gallery_layout,detail_layout;
 
     private int MODE;//当前状态
     public static final int MODE_NONE = 0;//无操作
@@ -69,24 +71,24 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         initGallery();
 
         mImagevieqw=findViewById(R.id.iv_preview);
-        mImagevieqw.setOnTouchListener(this);
-        mImagevieqw.setScaleType(ImageView.ScaleType.MATRIX);
+
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
-        if (resultCode == RESULT_OK) {
-            //获取图片路径
-            if (requestCode == REQUEST_IMAGE && resultCode == Activity.RESULT_OK && intent != null) {
-                Uri selectedImage = intent.getData();
-                String[] filePathColumns = {MediaStore.Images.Media.DATA};
-                Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
-                c.moveToFirst();
-                int columnIndex = c.getColumnIndex(filePathColumns[0]);
-                String imagePath = c.getString(columnIndex);
-                showImage(imagePath);
-                c.close();
-            }
+        //获取图片路径
+        if (requestCode == REQUEST_IMAGE && resultCode == Activity.RESULT_OK && intent != null) {
+            Uri selectedImage = intent.getData();
+            String[] filePathColumns = {MediaStore.Images.Media.DATA};
+            Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
+            c.moveToFirst();
+            int columnIndex = c.getColumnIndex(filePathColumns[0]);
+            String imagePath = c.getString(columnIndex);
+            showImage(imagePath);
+            c.close();
+            //设置缩放触控监听
+            mImagevieqw.setOnTouchListener(this);
+            mImagevieqw.setScaleType(ImageView.ScaleType.MATRIX);
         }
     }
     //加载图片
@@ -100,18 +102,37 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     //初始化gallery数据
     private void initGallery(){
         initData();
+        detail_image=findViewById(R.id.iv_detail);
 //        System.out.println("Init Data Successfully!");
+
         recyclerView = findViewById(R.id.rv_gallery);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
         galleryAdapter = new GalleryAdapter(datas);
         recyclerView.setAdapter(galleryAdapter);
+//        galleryAdapter.setClickListener(new GalleryAdapter.OnItemClickListener() {
+//            @Override
+//            public void onClick(View view, int position) {
+//                detail_image.setImageBitmap(datas.get(position).getImage());
+//                gallery_layout.setVisibility(GONE);
+//                detail_layout.setVisibility(View.VISIBLE);
+//            }
+//        });
 //        System.out.println("Init RecyclerView Successfully!");
+
+        findViewById(R.id.btn_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                detail_layout.setVisibility(GONE);
+                gallery_layout.setVisibility(View.VISIBLE);
+            }
+        });
+
     }
 
     private void initData(){
         datas = new ArrayList<>();
         for(int i=1;i<=5;i++){
-            Bitmap bm = BitmapFactory.decodeResource(getResources(),R.mipmap.demo);
+            Bitmap bm = BitmapFactory.decodeResource(getResources(),R.drawable.painting_icon);
             bm = ThumbnailUtils.extractThumbnail(bm, bm.getWidth()/2, bm.getHeight()/2);//压缩图片
             PreviewInfo previewInfo = new PreviewInfo("算法 "+i,bm,"XX算法");
             datas.add(previewInfo);
@@ -144,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         if (outWidth != 0 && outHeight != 0 && width != 0 && height != 0)
         {
-            int sampleSize=(outWidth/width+outHeight/height)/2;
+            int sampleSize=(outWidth/width+outHeight/height)/4;
             Log.d("ThumbnailUtils", "sampleSize = " + sampleSize);
             options.inSampleSize = sampleSize;
         }

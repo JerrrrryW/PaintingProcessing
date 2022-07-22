@@ -17,8 +17,8 @@
         android:layout_marginVertical="10dp"
         android:layout_width="300dp"
         android:layout_height="300dp"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/demo" />
+        android:scaleType="center"
+        android:src="@drawable/painting_icon" />
     <TextView
         android:id="@+id/tv_alg_title"
         android:layout_width="match_parent"
