@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         detail_image.setOnTouchListener(this);
         detail_image.setScaleType(ImageView.ScaleType.MATRIX);
 
+        OpencvAlgorithm.initLoadOpenCV();
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -143,12 +144,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 //        System.out.println("Init Data Successfully!");
     }
 
+    //调用各种算法生成展示图
     private void refreshDataSet(){
         for(int i=1;i<=5;i++){
-//            Bitmap bm = BitmapFactory.decodeResource(getResources(),R.mipmap.demo);
+            //TODO 在这里生成 Bitmap 图后放入 Gallery 数组
+            Bitmap bm = inputBM;
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
-            Bitmap bm = ThumbnailUtils.extractThumbnail(inputBM, inputBM.getWidth()/2, inputBM.getHeight()/2);//压缩图片
+//            Bitmap bm = ThumbnailUtils.extractThumbnail(inputBM, inputBM.getWidth()/2, inputBM.getHeight()/2);//压缩图片
             datas.get(i-1).setImage(bm);
         }
         Toast.makeText(this,"Dataset Refreshed!",Toast.LENGTH_LONG).show();

@@ -3,6 +3,7 @@ package com.example.paintingprocessing;
 import android.content.Context;
 
 import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -46,6 +47,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.VH> {
         holder.tv_alg_num.setText(mDatas.get(p).getNum());
         holder.tv_alg_title.setText(mDatas.get(p).getTitle());
         bm = mDatas.get(p).getImage();
+        bm = ThumbnailUtils.extractThumbnail(bm, bm.getWidth()/2, bm.getHeight()/2);//压缩图片
         holder.im_alg_mini.setImageBitmap(bm);
         holder.im_alg_mini.setScaleType(ImageView.ScaleType.CENTER_CROP);
 //        //根据bitmap长宽比设置imageview大小
