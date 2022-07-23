@@ -146,7 +146,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     //调用各种算法生成展示图
     private void refreshDataSet(){
-        for(int i=1;i<=5;i++){
+        datas.get(0).setImage(OpencvAlgorithm.sift(inputBM));
+        for(int i=2;i<=5;i++){
             //TODO 在这里生成 Bitmap 图后放入 Gallery 数组
             Bitmap bm = inputBM;
             BitmapFactory.Options options = new BitmapFactory.Options();

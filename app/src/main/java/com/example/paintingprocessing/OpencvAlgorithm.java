@@ -27,8 +27,8 @@ public class OpencvAlgorithm {
         }
     }
 
-    public static Bitmap sift(String path){
-        Bitmap bm = BitmapFactory.decodeFile(path);
+    public static Bitmap sift(Bitmap bitmap){
+        Bitmap bm = bitmap;
         bm = ThumbnailUtils.extractThumbnail(bm, bm.getWidth()/SCALE_NUM, bm.getHeight()/SCALE_NUM);//压缩图片
         Mat source = new Mat(),result = new Mat();
         Utils.bitmapToMat(bm,source);
