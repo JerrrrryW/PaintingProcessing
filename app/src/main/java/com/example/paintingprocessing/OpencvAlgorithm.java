@@ -16,7 +16,7 @@ import org.opencv.features2d.SIFT;
 import org.opencv.imgproc.Imgproc;
 
 public class OpencvAlgorithm {
-    public static final int SCALE_NUM = 8;
+    public static final int SCALE_NUM = 1;
 
     public static void initLoadOpenCV(){
         boolean success = OpenCVLoader.initDebug();
@@ -27,9 +27,9 @@ public class OpencvAlgorithm {
         }
     }
 
-    public static Bitmap sift(Bitmap bitmap){
-        Bitmap bm = bitmap;
-        bm = ThumbnailUtils.extractThumbnail(bm, bm.getWidth()/SCALE_NUM, bm.getHeight()/SCALE_NUM);//压缩图片
+    public static Bitmap sift(Bitmap bm){
+        Bitmap input=bm,output= Bitmap.createBitmap(bm.getWidth(), bm.getHeight(), Bitmap.Config.ARGB_8888);;
+        input = ThumbnailUtils.extractThumbnail(bm, bm.getWidth()/SCALE_NUM, bm.getHeight()/SCALE_NUM);//压缩图片
         Mat source = new Mat(),result = new Mat();
         Utils.bitmapToMat(bm,source);
 
@@ -39,10 +39,10 @@ public class OpencvAlgorithm {
         sift.detect(source,pt);
         Features2d.drawKeypoints(source,pt,result,new Scalar(0,0,225),Features2d.DrawMatchesFlags_DRAW_RICH_KEYPOINTS);
 
-        Utils.matToBitmap(result,bm);
+        Utils.matToBitmap(result,output);
 
         source.release();
         result.release();
-        return bm;
+        return output;
     }
 }

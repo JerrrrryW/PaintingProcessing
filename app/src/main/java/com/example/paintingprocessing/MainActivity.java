@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         datas = new ArrayList<>();
         for(int i=1;i<=5;i++){
             Bitmap bm = BitmapFactory.decodeResource(getResources(),R.drawable.painting_icon);
-            bm = ThumbnailUtils.extractThumbnail(bm, bm.getWidth()/2, bm.getHeight()/2);//压缩图片
+            //bm = ThumbnailUtils.extractThumbnail(bm, bm.getWidth()/2, bm.getHeight()/2);//压缩图片
             PreviewInfo previewInfo = new PreviewInfo("算法 "+i,bm,"XX算法");
             datas.add(previewInfo);
         }
