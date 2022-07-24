@@ -41,11 +41,22 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private ImageView mImagevieqw,detail_image;
     private LinearLayout gallery_layout,detail_layout;
 
+    //图像处理算法的配置
+    static final int ALGORITHM_NUM = 3;
+    String[] algName = new String[]{"SIFT算法","XXX算法","XXX算法","XXX算法","XXX算法"};
+    private Bitmap processImage(Bitmap input,int algorithm){
+        switch (algorithm){
+            case 0:
+                return OpencvAlgorithm.sift(input);
+            default:
+                return input;
+        }
+    }
+
     private int MODE;//当前状态
     public static final int MODE_NONE = 0;//无操作
     public static final int MODE_DRAG = 1;//单指操作
     public static final int MODE_SCALE = 2;//双指操作
-
     private Matrix startMatrix = new Matrix();//初始矩阵
     private Matrix endMatrix = new Matrix();//变化后的矩阵
     private PointF startPointF = new PointF();//初始坐标
@@ -102,6 +113,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         refreshDataSet();
         galleryAdapter.notifyDataSetChanged();
     }
+    //调用各种算法生成展示图
+    private void refreshDataSet(){
+        for(int i=0;i<ALGORITHM_NUM;i++){
+            //TODO 在这里生成 Bitmap 图后放入 Gallery 数组
+            datas.get(i).setImage(processImage(inputBM,i));
+        }
+        Toast.makeText(this,"Dataset Refreshed!",Toast.LENGTH_LONG).show();
+    }
 
     //初始化gallery数据
     private void initGallery(){
@@ -135,27 +154,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     private void initData(){
         datas = new ArrayList<>();
-        for(int i=1;i<=5;i++){
+        for(int i=1;i<=ALGORITHM_NUM;i++){
             Bitmap bm = BitmapFactory.decodeResource(getResources(),R.drawable.painting_icon);
             //bm = ThumbnailUtils.extractThumbnail(bm, bm.getWidth()/2, bm.getHeight()/2);//压缩图片
-            PreviewInfo previewInfo = new PreviewInfo("算法 "+i,bm,"XX算法");
+            PreviewInfo previewInfo = new PreviewInfo("算法 "+i,bm,algName[i-1]);
             datas.add(previewInfo);
         }
 //        System.out.println("Init Data Successfully!");
-    }
-
-    //调用各种算法生成展示图
-    private void refreshDataSet(){
-        datas.get(0).setImage(OpencvAlgorithm.sift(inputBM));
-        for(int i=2;i<=5;i++){
-            //TODO 在这里生成 Bitmap 图后放入 Gallery 数组
-            Bitmap bm = inputBM;
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-//            Bitmap bm = ThumbnailUtils.extractThumbnail(inputBM, inputBM.getWidth()/2, inputBM.getHeight()/2);//压缩图片
-            datas.get(i-1).setImage(bm);
-        }
-        Toast.makeText(this,"Dataset Refreshed!",Toast.LENGTH_LONG).show();
     }
 
     //使用BitmapFactory.Options的inSampleSize参数来缩放
