@@ -11,6 +11,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -43,13 +44,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     //图像处理算法的配置
     static final int ALGORITHM_NUM = 3;
-    String[] algName = new String[]{"SIFT算法","XXX算法","XXX算法","XXX算法","XXX算法"};
+    String[] algName = new String[]{"SIFT特征点","小波变换","XXX算法","XXX算法","XXX算法"};
     private Bitmap processImage(Bitmap input,int algorithm){
         switch (algorithm){
-            case 0:
-                return OpencvAlgorithm.sift(input);
-            default:
-                return input;
+            case 0: return OpencvAlgorithm.sift(input);
+            case 1: return OpencvAlgorithm.wavelet(input);
+            default: return input;
         }
     }
 
