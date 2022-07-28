@@ -6,11 +6,14 @@ public class PreviewInfo {
     private String num;
     private Bitmap image;
     private String title;
+    private Boolean isProcessing;
+
     public PreviewInfo(){}
     public PreviewInfo(String num, Bitmap image, String title){
         this.num=num;
         this.image=image;
         this.title=title;
+        isProcessing = false;
     }
 
     public String getNum() {
@@ -25,6 +28,8 @@ public class PreviewInfo {
         return title;
     }
 
+    public boolean isProcessing(){return isProcessing;}
+
     public void setNum(String s) {
         this.num = s;
     }
@@ -37,4 +42,7 @@ public class PreviewInfo {
         this.title = s;
     }
 
+    public void setProcessing(Boolean processing) {
+        isProcessing = processing;
+    }
 }

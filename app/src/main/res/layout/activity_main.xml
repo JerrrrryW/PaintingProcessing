@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/background"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+<!--    <ImageView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:src="@drawable/background"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"/>-->
     <LinearLayout
         android:id="@+id/input_layout"
         android:orientation="vertical"
@@ -33,7 +33,8 @@
             android:textSize="30dp"/>
         <ImageView
             android:id="@+id/iv_preview"
-            android:background="@color/image_background"
+            android:background="@drawable/corner_round_gray"
+            android:backgroundTint="@color/image_background"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
@@ -88,7 +89,8 @@
             android:textSize="30dp"/>
         <ImageView
             android:id="@+id/iv_detail"
-            android:background="@color/image_background"
+            android:background="@drawable/corner_round_gray"
+            android:backgroundTint="@color/image_background"
             android:foregroundGravity="center"
             android:layout_width="match_parent"
             android:layout_height="0dp"

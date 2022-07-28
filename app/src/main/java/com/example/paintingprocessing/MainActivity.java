@@ -18,6 +18,8 @@ import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -43,12 +45,17 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private LinearLayout gallery_layout,detail_layout;
 
     //图像处理算法的配置
-    static final int ALGORITHM_NUM = 3;
-    String[] algName = new String[]{"SIFT特征点","小波变换","XXX算法","XXX算法","XXX算法"};
+    static final int ALGORITHM_NUM = 7;
+    String[] algName = new String[]{"SIFT特征点","小波变换","多级小波变换","Sobel轮廓检测","Canny轮廓检测","人脸识别","霍夫直线检测"};
     private Bitmap processImage(Bitmap input,int algorithm){
         switch (algorithm){
             case 0: return OpencvAlgorithm.sift(input);
-            case 1: return OpencvAlgorithm.wavelet(input);
+            case 1: return OpencvAlgorithm.wavelet(input,false);
+            case 2: return OpencvAlgorithm.wavelet(input,true);
+            case 3: return OpencvAlgorithm.sobelContourDetection(input);
+            case 4: return OpencvAlgorithm.cannyContourDetection(input);
+            case 5: return OpencvAlgorithm.haarFaceDetection(input,getApplicationContext());
+            case 6: return OpencvAlgorithm.houghLines(input);
             default: return input;
         }
     }
@@ -116,11 +123,33 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     //调用各种算法生成展示图
     private void refreshDataSet(){
         for(int i=0;i<ALGORITHM_NUM;i++){
-            //TODO 在这里生成 Bitmap 图后放入 Gallery 数组
-            datas.get(i).setImage(processImage(inputBM,i));
+            datas.get(i).setProcessing(true);
+            galleryAdapter.notifyItemChanged(i);
+            ProcessingThread pt = new ProcessingThread(i);
+            pt.start();
         }
         Toast.makeText(this,"Dataset Refreshed!",Toast.LENGTH_LONG).show();
     }
+
+    private class ProcessingThread extends Thread {
+        private int index;
+        private Bitmap resultBM;
+        public ProcessingThread(int i){
+            this.index=i;
+        }
+        @Override
+        public void run(){
+            resultBM = processImage(inputBM,index);
+            datas.get(index).setProcessing(false);
+            datas.get(index).setImage(resultBM);
+            mHandler.sendEmptyMessage(index);
+        }
+    }
+    private Handler mHandler = new Handler() {//主线程用于接受处理子线程的刷新UI请求
+        public void handleMessage(Message msg) {
+            galleryAdapter.notifyItemChanged(msg.what);
+        }
+    };
 
     //初始化gallery数据
     private void initGallery(){
@@ -151,7 +180,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         });
 
     }
-
     private void initData(){
         datas = new ArrayList<>();
         for(int i=1;i<=ALGORITHM_NUM;i++){
@@ -231,6 +259,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 //手指离开后，重置状态
                 MODE = MODE_NONE;
                 break;
+
         }
         //事件结束后，把矩阵的变化同步到ImageView上
 
@@ -238,7 +267,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         return true;
 
     }
-
     //获取距离
     private static float getDistance(MotionEvent event) {//获取两点间距离
         float x = event.getX(0) - event.getX(1);

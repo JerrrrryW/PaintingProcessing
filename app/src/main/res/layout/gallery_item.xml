@@ -6,34 +6,45 @@
     android:paddingHorizontal="20dp">
     <TextView
         android:id="@+id/tv_alg_num"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="算法 1"
+        android:text=" 算法 1"
         android:gravity="center_vertical"
-        android:textSize="20dp"/>
+        android:textStyle="bold"
+        android:textColor="@color/space_blue"
+        android:textSize="25dp"
+        android:layout_marginBottom="5dp"/>
     <ImageView
         android:layout_gravity="center"
         android:id="@+id/im_alg_mini"
-        android:layout_marginVertical="10dp"
-        android:layout_width="300dp"
+        android:background="@drawable/corner_round_gray"
+        android:backgroundTint="@color/image_background"
+        android:layout_marginVertical="5dp"
+        android:layout_width="match_parent"
         android:layout_height="300dp"
         android:scaleType="center"
         android:src="@drawable/painting_icon" />
     <ProgressBar
         android:visibility="gone"
         android:layout_gravity="center"
-        android:id="@+id/progress_circular"
-        android:layout_marginVertical="10dp"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_margin="100dp"/>
+        android:id="@+id/waiting_circular"
+        android:progressTint="@color/space_blue"
+        android:layout_marginVertical="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:padding="100dp"
+        android:background="@drawable/corner_round_gray"
+        android:backgroundTint="@color/image_background"/>
     <TextView
         android:id="@+id/tv_alg_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="小波变换"
-        android:textSize="30dp"
-        android:gravity="center"/>
+        android:textColor="@color/space_blue"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"/>
 
 
 </LinearLayout>

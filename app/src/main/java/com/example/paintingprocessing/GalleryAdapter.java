@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,12 +30,14 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.VH> {
         public TextView tv_alg_num, tv_alg_title;
         public ImageView im_alg_mini;
         public Context context;
+        public ProgressBar progressBar;
 
         public VH(View v) {
             super(v);
             tv_alg_num = v.findViewById(R.id.tv_alg_num);
             tv_alg_title = v.findViewById(R.id.tv_alg_title);
             im_alg_mini = v.findViewById(R.id.im_alg_mini);
+            progressBar = v.findViewById(R.id.waiting_circular);
             context = v.getContext();
         }
 
@@ -46,10 +49,21 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.VH> {
         int p=position;
         holder.tv_alg_num.setText(mDatas.get(p).getNum());
         holder.tv_alg_title.setText(mDatas.get(p).getTitle());
-        bm = mDatas.get(p).getImage();
-        bm = ThumbnailUtils.extractThumbnail(bm, bm.getWidth()/2, bm.getHeight()/2);//压缩图片
-        holder.im_alg_mini.setImageBitmap(bm);
-        holder.im_alg_mini.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+        if(mDatas.get(position).isProcessing()){//展现加载进度条
+            holder.im_alg_mini.setVisibility(View.GONE);
+            holder.progressBar.setVisibility(View.VISIBLE);
+            holder.itemView.setClickable(false);
+        }else {
+            holder.progressBar.setVisibility(View.GONE);
+            holder.im_alg_mini.setVisibility(View.VISIBLE);
+            holder.itemView.setClickable(true);
+            bm = mDatas.get(p).getImage();
+            bm = ThumbnailUtils.extractThumbnail(bm, bm.getWidth() / 2, bm.getHeight() / 2);//压缩图片
+            holder.im_alg_mini.setImageBitmap(bm);
+            holder.im_alg_mini.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        }
+
 //        //根据bitmap长宽比设置imageview大小
 //        ViewGroup.LayoutParams params= holder.im_alg_mini.getLayoutParams();
 //        params.height = (bm.getHeight()/bm.getWidth())* params.width;
@@ -58,7 +72,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.VH> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendToast(holder.context, "item"+p+"clicked!",Toast.LENGTH_SHORT);
+                //sendToast(holder.context, "item"+p+"clicked!",Toast.LENGTH_SHORT);
                 if(listener!=null){
                     Log.e("Gallery","ItemClicked!");
                     listener.onItemClick(position);
