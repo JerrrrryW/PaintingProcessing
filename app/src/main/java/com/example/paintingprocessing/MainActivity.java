@@ -29,6 +29,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.paintingprocessing.view.ZoomImageView;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     List<PreviewInfo> datas;
     Bitmap inputBM;
     GalleryAdapter galleryAdapter;
-    private ImageView mImagevieqw,detail_image;
+    private ZoomImageView mImagevieqw,detail_image;
     private LinearLayout gallery_layout,detail_layout;
 
     //图像处理算法的配置
@@ -90,8 +92,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         mImagevieqw=findViewById(R.id.iv_preview);
         detail_image=findViewById(R.id.iv_detail);
-        detail_image.setOnTouchListener(this);
-        detail_image.setScaleType(ImageView.ScaleType.MATRIX);
+//        detail_image.setOnTouchListener(this);
+//        detail_image.setScaleType(ImageView.ScaleType.MATRIX);
 
         OpencvAlgorithm.initLoadOpenCV();
     }
@@ -109,13 +111,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             showImage(imagePath);
             c.close();
             //设置缩放触控监听
-            mImagevieqw.setOnTouchListener(this);
-            mImagevieqw.setScaleType(ImageView.ScaleType.MATRIX);
+//            mImagevieqw.setOnTouchListener(this);
+//            mImagevieqw.setScaleType(ImageView.ScaleType.MATRIX);
         }
     }
     //加载图片
     private void showImage(String imagePath){
         inputBM = resizeImage(imagePath,800,400);
+        mImagevieqw.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         mImagevieqw.setImageBitmap(inputBM);
         refreshDataSet();
         galleryAdapter.notifyDataSetChanged();
@@ -164,6 +167,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         galleryAdapter.setOnItemClickListener(new GalleryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
+                detail_image.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 detail_image.setImageBitmap(datas.get(position).getImage());
                 gallery_layout.setVisibility(GONE);
                 detail_layout.setVisibility(View.VISIBLE);
