@@ -124,7 +124,7 @@ public class OpencvAlgorithm {
         Mat lines = new Mat();
         Imgproc.Canny(source,result,50,100,3,false);
         Imgproc.cvtColor(result,cResult,Imgproc.COLOR_GRAY2BGR);
-        Imgproc.HoughLines(result,lines,1,Math.PI/180,400);//higher threshold, less lines
+        Imgproc.HoughLines(result,lines,1,Math.PI/180,300);//higher threshold, less lines
         for (int x= 0; x<lines.rows();x++) {
             double rho = lines.get(x, 0)[0], theta = lines.get(x, 0)[1];
             double a = Math.cos(theta), b = Math.sin(theta);

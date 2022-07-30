@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         for(int i=0;i<ALGORITHM_NUM;i++){
             datas.get(i).setProcessing(true);
             galleryAdapter.notifyItemChanged(i);
-            ProcessingThread pt = new ProcessingThread(i);
+            ProcessingThread pt = new ProcessingThread(i);//多线程
             pt.start();
         }
         Toast.makeText(this,"Dataset Refreshed!",Toast.LENGTH_LONG).show();
@@ -196,8 +196,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     //使用BitmapFactory.Options的inSampleSize参数来缩放
-    public Bitmap resizeImage(String path,
-                                        int width, int height)
+    public Bitmap resizeImage(String path, int width, int height)
     {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;//不加载bitmap到内存中

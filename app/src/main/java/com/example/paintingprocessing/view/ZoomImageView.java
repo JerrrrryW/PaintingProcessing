@@ -3,6 +3,7 @@ package com.example.paintingprocessing.view;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
@@ -179,53 +180,63 @@ public class ZoomImageView  extends androidx.appcompat.widget.AppCompatImageView
     @Override
     public void onGlobalLayout() {
         if (mIsOneLoad) {
-
-            //得到控件的宽和高
-            int width = getWidth();
-            int height = getHeight();
-
-            //获取图片,如果没有图片则直接退出
-            Drawable d = getDrawable();
-            if (d == null)
-                return;
-            //获取图片的宽和高
-            int dw = d.getIntrinsicWidth();
-            int dh = d.getIntrinsicHeight();
-
-            float scale = 1.0f;
-            if (dw > width && dh <= height) {
-                scale = width * 1.0f / dw;
-            }
-            if (dw <= width && dh > height) {
-                scale = height * 1.0f / dh;
-            }
-            if ((dw <= width && dh <= height) || (dw >= width && dh >= height)) {
-                scale = Math.min(width * 1.0f / dw, height * 1.0f / dh);
-            }
-
-            //图片原始比例，图片回复原始大小时使用
-            mInitScale = scale;
-            //图片双击后放大的比例
-            mMidScale = mInitScale * 2;
-            //手势放大时最大比例
-            mMaxScale = mInitScale * 4;
-
-            //设置移动数据,把改变比例后的图片移到中心点
-            float translationX = width * 1.0f / 2 - dw / 2;
-            float translationY = height * 1.0f / 2 - dh / 2;
-
-            mScaleMatrix.postTranslate(translationX, translationY);
-            mScaleMatrix.postScale(mInitScale, mInitScale, width * 1.0f / 2, height * 1.0f / 2);
-            setImageMatrix(mScaleMatrix);
+            calculateScale();
             mIsOneLoad = false;
         }
     }
+
+    private void calculateScale (){
+        //得到控件的宽和高
+        int width = getWidth();
+        int height = getHeight();
+
+        //获取图片,如果没有图片则直接退出
+        Drawable d = getDrawable();
+        if (d == null)
+            return;
+        //获取图片的宽和高
+        int dw = d.getIntrinsicWidth();
+        int dh = d.getIntrinsicHeight();
+
+        float scale = 1.0f;
+        if (dw > width && dh <= height) {
+            scale = width * 1.0f / dw;
+        }
+        if (dw <= width && dh > height) {
+            scale = height * 1.0f / dh;
+        }
+        if ((dw <= width && dh <= height) || (dw >= width && dh >= height)) {
+            scale = Math.min(width * 1.0f / dw, height * 1.0f / dh);
+        }
+
+        //图片原始比例，图片回复原始大小时使用
+        mInitScale = scale;
+        //图片双击后放大的比例
+        mMidScale = mInitScale * 2;
+        //手势放大时最大比例
+        mMaxScale = mInitScale * 4;
+
+        //设置移动数据,把改变比例后的图片移到中心点
+        float translationX = width * 1.0f / 2 - dw / 2;
+        float translationY = height * 1.0f / 2 - dh / 2;
+
+        mScaleMatrix.postTranslate(translationX, translationY);
+        mScaleMatrix.postScale(mInitScale, mInitScale, width * 1.0f / 2, height * 1.0f / 2);
+        setImageMatrix(mScaleMatrix);
+    }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         setScaleType(ScaleType.MATRIX);
         return mScaleGestureDetector.onTouchEvent(event)|
                 gestureDetector.onTouchEvent(event);
+    }
+
+    @Override
+    public void setImageBitmap(Bitmap bm) {
+        super.setImageBitmap(bm);
+        calculateScale();
     }
 
     //手势操作（缩放）
@@ -429,7 +440,6 @@ public class ZoomImageView  extends androidx.appcompat.widget.AppCompatImageView
 
         return rectF;
     }
-
 
     /**
      * 获取当前图片的缩放值
